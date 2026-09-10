@@ -23,9 +23,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code
 COPY . .
 
-# Tell Flask which port to listen on (Day 2: 0.0.0.0 = all interfaces)
+# Tell Flask which port to listen on (Day 2: 0.0.0.0 = all interfaces).
+# The default is 5000, but platforms like Koyeb/Render override PORT
+# via their own env var at runtime.
 ENV PORT=5000
 ENV HOST=0.0.0.0
+ENV PYTHONUNBUFFERED=1
 
 # Expose the port to the host
 EXPOSE 5000
@@ -33,4 +36,5 @@ EXPOSE 5000
 # Day 9: Gunicorn is the production WSGI server. It spawns multiple
 # OS worker processes (Day 3 theory) to handle concurrent students.
 # eventlet provides the async backend SocketIO needs.
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--worker-class", "eventlet", "app:app"]
+# Shell form so ${PORT} expands — Koyeb/Render inject their own PORT.
+CMD gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 1 --worker-class eventlet --timeout 120 app:app
