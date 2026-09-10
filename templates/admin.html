@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<div class="page-head flex between center wrap" style="gap:16px">
+  <div>
+    <h2>📊 Analytics Dashboard</h2>
+    <p>Revenue, peak hours, top dishes &amp; waste — powered by MongoDB aggregations.</p>
+  </div>
+  <div class="period-bar">
+    <button class="period-btn" data-period="today">Today</button>
+    <button class="period-btn active" data-period="week">Week</button>
+    <button class="period-btn" data-period="month">Month</button>
+    <button class="btn btn-teal btn-sm" onclick="exportCsv()">⬇ Export CSV</button>
+  </div>
+</div>
+
+<!-- ══ ADMIN TABS ══════════════════════════════════════════════════ -->
+<div class="admin-tabs">
+  <button class="admin-tab active" data-tab="analytics">📊 Analytics</button>
+  <button class="admin-tab" data-tab="menu-mgmt">🍽️ Menu Management</button>
+</div>
+
+<!-- ══ TAB: ANALYTICS ════════════════════════════════════════════ -->
+<div class="admin-panel active" id="tab-analytics">
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="stat-card purple">
+      <div class="icon">💰</div>
+      <div class="label">Revenue</div>
+      <div class="value" id="kpi-revenue">₹0</div>
+    </div>
+    <div class="stat-card teal">
+      <div class="icon">🧾</div>
+      <div class="label">Orders</div>
+      <div class="value" id="kpi-orders">0</div>
+    </div>
+    <div class="stat-card green">
+      <div class="icon">📈</div>
+      <div class="label">Avg Order</div>
+      <div class="value" id="kpi-avg">₹0</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="icon">🔥</div>
+      <div class="label">Live Now</div>
+      <div class="value" id="kpi-live">0</div>
+    </div>
+    <div class="stat-card pink">
+      <div class="icon">🗑️</div>
+      <div class="label">Cancelled</div>
+      <div class="value" id="kpi-waste">0</div>
+    </div>
+  </div>
+
+  <!-- Revenue chart -->
+  <h3 class="section-title">💰 Revenue over time</h3>
+  <div class="chart-card">
+    <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+  </div>
+
+  <!-- Top dishes + Category split -->
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(310px,1fr));margin-top:22px">
+    <div class="chart-card">
+      <h3>🏆 Top dishes</h3>
+      <div class="chart-wrap sm"><canvas id="popularChart"></canvas></div>
+      <div class="table-wrap mt">
+        <table class="data">
+          <thead><tr><th>#</th><th>Dish</th><th>Orders</th><th>Revenue</th></tr></thead>
+          <tbody id="popular-table"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>🥧 Revenue by category</h3>
+      <div class="chart-wrap"><canvas id="categoryChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Peak hours heatmap -->
+  <h3 class="section-title" style="margin-top:28px">⏰ Peak hours heatmap</h3>
+  <div class="chart-card">
+    <p class="muted" style="margin-bottom:16px;font-size:.88rem">
+      Busiest 15-minute windows. Darker = fewer, brighter = more orders.
+      <span class="faint">Hover any cell for details.</span>
+    </p>
+    <div class="heatmap-wrap">
+      <div class="heatmap-grid" id="heatmap"></div>
+    </div>
+    <div class="hm-legend" style="margin-top:12px">
+      <span>Fewer orders</span>
+      <span class="gradient-bar"></span>
+      <span>More orders</span>
+    </div>
+  </div>
+
+  <!-- Waste + Top students -->
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(310px,1fr));margin-top:22px">
+    <div class="chart-card">
+      <h3>🗑️ Waste tracker</h3>
+      <p class="muted" style="margin-bottom:14px;font-size:.85rem">Orders cancelled — food that didn't reach a student.</p>
+      <div id="waste-box"></div>
+    </div>
+    <div class="chart-card">
+      <h3>👤 Top spending students</h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>#</th><th>Student</th><th>Orders</th><th>Spent</th></tr></thead>
+          <tbody id="students-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-analytics -->
+
+<!-- ══ TAB: MENU MANAGEMENT ══════════════════════════════════════ -->
+<div class="admin-panel" id="tab-menu-mgmt">
+
+  <!-- Add new dish form -->
+  <div class="add-dish-card">
+    <h3 class="section-title" style="margin:0 0 20px">
+      ➕ Add New Dish
+    </h3>
+    <div class="form-row">
+      <div class="field">
+        <label>Dish name *</label>
+        <input class="input" id="dish-name" type="text" placeholder="e.g. Masala Dosa"/>
+      </div>
+      <div class="field">
+        <label>Category *</label>
+        <select class="select" id="dish-cat">
+          <option>South Indian</option>
+          <option>North Indian</option>
+          <option>Snacks</option>
+          <option>Beverages</option>
+          <option>Desserts</option>
+          <option>Chinese</option>
+          <option>Fast Food</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Price (₹) *</label>
+        <input class="input" id="dish-price" type="number" min="0" step="0.5" placeholder="45"/>
+      </div>
+      <div class="field">
+        <label>Stock qty</label>
+        <input class="input" id="dish-stock" type="number" min="0" placeholder="50"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Emoji icon</label>
+        <input class="input" id="dish-emoji" type="text" placeholder="🍽️" maxlength="4"/>
+      </div>
+      <div class="field">
+        <label>Prep time (mins)</label>
+        <input class="input" id="dish-prep" type="number" min="1" placeholder="5"/>
+      </div>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea class="textarea" id="dish-desc" placeholder="Crispy dosa with spicy potato filling…" rows="2"></textarea>
+    </div>
+    <div class="flex gap center wrap" style="margin-bottom:14px">
+      <label class="flex center gap-sm" style="cursor:pointer;font-size:.9rem;font-family:var(--font-head)">
+        <input type="checkbox" id="dish-special" style="width:18px;height:18px;accent-color:var(--orange)"/>
+        Mark as Daily Special ⭐
+      </label>
+    </div>
+    <button class="btn btn-primary" onclick="addDish()">Add to Menu →</button>
+  </div>
+
+  <!-- Existing dishes -->
+  <h3 class="section-title">📋 Current Menu</h3>
+  <div id="menu-list">
+    <div class="center-load"><div class="spinner"></div></div>
+  </div>
+
+</div><!-- /tab-menu-mgmt -->
+
+<!-- ══ EDIT DISH MODAL ════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="edit-modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>✏️ Edit Dish</h3>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <input type="hidden" id="edit-id"/>
+    <div class="form-row">
+      <div class="field">
+        <label>Name</label>
+        <input class="input" id="edit-name" type="text"/>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select class="select" id="edit-cat">
+          <option>South Indian</option><option>North Indian</option>
+          <option>Snacks</option><option>Beverages</option>
+          <option>Desserts</option><option>Chinese</option><option>Fast Food</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Price (₹)</label>
+        <input class="input" id="edit-price" type="number" min="0" step="0.5"/>
+      </div>
+      <div class="field">
+        <label>Stock qty</label>
+        <input class="input" id="edit-stock" type="number" min="0"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Emoji</label>
+        <input class="input" id="edit-emoji" type="text" maxlength="4"/>
+      </div>
+      <div class="field">
+        <label>Prep time (mins)</label>
+        <input class="input" id="edit-prep" type="number" min="1"/>
+      </div>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea class="textarea" id="edit-desc" rows="2"></textarea>
+    </div>
+    <div class="field">
+      <label>Upload photo</label>
+      <input class="input" id="edit-image" type="file" accept="image/*" style="padding:8px"/>
+    </div>
+    <div class="flex gap center wrap" style="margin-bottom:16px">
+      <label class="flex center gap-sm" style="cursor:pointer;font-size:.9rem;font-family:var(--font-head)">
+        <input type="checkbox" id="edit-special" style="width:18px;height:18px;accent-color:var(--orange)"/>
+        Daily Special ⭐
+      </label>
+    </div>
+    <div class="flex gap">
+      <button class="btn btn-primary" style="flex:1" onclick="saveDish()">Save Changes</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteDish()">🗑️ Delete</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+<script>boot('admin', adminInit);</script>
+{% endblock %}

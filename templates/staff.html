@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Kitchen{% endblock %}
+
+{% block content %}
+<div class="page-head flex between center wrap">
+  <div>
+    <h2>👨‍🍳 Kitchen Dashboard</h2>
+    <p>New orders appear instantly — no refresh. Move them across the board as you cook.</p>
+  </div>
+  <span class="badge live"><span class="dot"></span>Live</span>
+</div>
+
+<!-- ══ KANBAN BOARD ═══════════════════════════════════════════════ -->
+<div class="staff-board">
+  <!-- PLACED -->
+  <div class="staff-col col-placed" id="col-placed">
+    <div class="col-head">
+      <h3>🧾 Placed <span class="col-cnt" id="cnt-placed">0</span></h3>
+    </div>
+    <div class="col-body" id="body-placed">
+      <div class="center-load"><div class="spinner"></div></div>
+    </div>
+  </div>
+  <!-- PREPARING -->
+  <div class="staff-col col-preparing" id="col-preparing">
+    <div class="col-head">
+      <h3>👨‍🍳 Preparing <span class="col-cnt" id="cnt-preparing">0</span></h3>
+    </div>
+    <div class="col-body" id="body-preparing"></div>
+  </div>
+  <!-- READY -->
+  <div class="staff-col col-ready" id="col-ready">
+    <div class="col-head">
+      <h3>✅ Ready <span class="col-cnt" id="cnt-ready">0</span></h3>
+    </div>
+    <div class="col-body" id="body-ready"></div>
+  </div>
+</div>
+
+<!-- ══ QUICK STOCK CONTROL ════════════════════════════════════════ -->
+<h3 class="section-title" style="margin-top:40px">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0">
+    <path d="M3 10h14M10 3v14" stroke="var(--orange2)" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="10" cy="10" r="9" stroke="var(--orange2)" stroke-width="1.5" fill="none"/>
+  </svg>
+  Quick stock control
+</h3>
+<p class="muted" style="margin-bottom:16px;font-size:.9rem">
+  Toggle a dish out of stock — it instantly greys out for every student in real-time.
+</p>
+<div class="stock-mgr" id="menu-mgr"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/staff.js') }}"></script>
+<script>boot('staff', staffInit);</script>
+{% endblock %}

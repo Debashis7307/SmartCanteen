@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<section class="hero">
+
+  <!-- Particle decorations -->
+  <div class="hero-particles" aria-hidden="true">
+    <div class="particle" style="width:6px;height:6px;background:rgba(168,85,247,0.6);top:12%;left:8%;--dur:7s;--del:0s;--dx:18px;--dy:-24px;--s:1.4;--a1:0.6;--a2:0.15;"></div>
+    <div class="particle" style="width:4px;height:4px;background:rgba(6,182,212,0.7);top:20%;right:12%;--dur:9s;--del:1s;--dx:-14px;--dy:-18px;--s:1.2;--a1:0.5;--a2:0.1;"></div>
+    <div class="particle" style="width:8px;height:8px;background:rgba(16,185,129,0.4);top:70%;left:5%;--dur:11s;--del:2s;--dx:22px;--dy:-12px;--s:0.8;--a1:0.4;--a2:0.08;"></div>
+    <div class="particle" style="width:5px;height:5px;background:rgba(245,158,11,0.5);top:65%;right:8%;--dur:8s;--del:0.5s;--dx:-16px;--dy:10px;--s:1.3;--a1:0.45;--a2:0.1;"></div>
+    <div class="particle" style="width:3px;height:3px;background:rgba(236,72,153,0.6);top:35%;left:3%;--dur:10s;--del:3s;--dx:12px;--dy:-20px;--s:1.5;--a1:0.55;--a2:0.12;"></div>
+    <div class="particle" style="width:5px;height:5px;background:rgba(124,58,237,0.4);top:80%;left:40%;--dur:12s;--del:1.5s;--dx:-10px;--dy:-16px;--s:1.1;--a1:0.35;--a2:0.08;"></div>
+  </div>
+
+  <!-- Display font accent -->
+  <p class="reveal" style="font-family:var(--font-display);font-size:1.6rem;color:var(--orange2);margin-bottom:6px;opacity:1;transform:none;animation:fadeInUp .8s ease both;">
+    No more waiting in line
+  </p>
+
+  <h1 class="reveal">
+    Skip the Queue.<br>
+    <span class="accent-script">Pre-order</span> &amp; Track Live.
+  </h1>
+
+  <p class="lead reveal">
+    The break is 15&nbsp;minutes, the queue is 30. SmartCanteen lets you
+    pre-order from class, grab a token, and walk up when food is
+    <strong style="color:var(--green2)">ready</strong>.
+  </p>
+
+  <div class="cta reveal">
+    <a href="/menu" class="btn btn-primary btn-lg">🍽️ Browse Menu</a>
+    <a href="/track" class="btn btn-ghost btn-lg">🎯 Track a Token</a>
+  </div>
+
+  <!-- SVG Hero Illustration — floating orb -->
+  <div class="hero-illustration reveal" style="margin-top:36px;">
+    <div class="hero-orb">
+      <div class="hero-orb-ring"></div>
+      <div class="hero-orb-ring"></div>
+      <div class="hero-orb-ring"></div>
+      <div class="hero-orb-glow"></div>
+      <!-- SVG food plate illustration -->
+      <svg class="hero-orb-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Food plate illustration">
+        <!-- Plate base -->
+        <ellipse cx="50" cy="72" rx="38" ry="6" fill="rgba(124,58,237,0.15)"/>
+        <!-- Plate -->
+        <ellipse cx="50" cy="68" rx="34" ry="5" fill="#1c1e28"/>
+        <ellipse cx="50" cy="65" rx="34" ry="10" fill="url(#plateGrad)"/>
+        <!-- Food dome -->
+        <ellipse cx="50" cy="50" rx="26" ry="20" fill="url(#foodGrad)"/>
+        <!-- Steam lines -->
+        <path d="M38 28 Q36 22 38 16 Q40 10 38 4" stroke="rgba(6,182,212,0.5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M50 26 Q48 20 50 14 Q52 8 50 2" stroke="rgba(168,85,247,0.5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M62 28 Q60 22 62 16 Q64 10 62 4" stroke="rgba(16,185,129,0.5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <!-- Shine on food -->
+        <ellipse cx="40" cy="42" rx="8" ry="5" fill="rgba(255,255,255,0.12)" transform="rotate(-20 40 42)"/>
+        <!-- Fork and knife -->
+        <line x1="18" y1="40" x2="18" y2="72" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="82" y1="40" x2="82" y2="72" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Dots decoration -->
+        <circle cx="15" cy="55" r="2" fill="rgba(245,158,11,0.5)"/>
+        <circle cx="85" cy="55" r="2" fill="rgba(245,158,11,0.5)"/>
+        <defs>
+          <linearGradient id="plateGrad" x1="16" y1="55" x2="84" y2="75" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#252840"/>
+            <stop offset="100%" stop-color="#1c1e28"/>
+          </linearGradient>
+          <radialGradient id="foodGrad" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#a855f7"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#06b6d4"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Side SVG vector: lightning bolt (real-time) -->
+    <div style="display:flex;flex-direction:column;gap:20px;align-items:center;">
+      <div style="text-align:center;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 12px rgba(6,182,212,0.6))">
+          <circle cx="22" cy="22" r="21" fill="rgba(6,182,212,0.1)" stroke="rgba(6,182,212,0.3)"/>
+          <path d="M24 8L14 24h10l-4 12L30 22H20L24 8z" fill="url(#boltGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+          <defs>
+            <linearGradient id="boltGrad" x1="14" y1="8" x2="30" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#22d3ee"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;font-family:var(--font-head);text-transform:uppercase;letter-spacing:.08em;">Real-time</div>
+      </div>
+      <div style="text-align:center;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 12px rgba(16,185,129,0.6))">
+          <circle cx="22" cy="22" r="21" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.3)"/>
+          <path d="M14 22l6 6 10-12" stroke="url(#checkGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="checkGrad" x1="14" y1="16" x2="30" y2="28" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#34d399"/>
+              <stop offset="100%" stop-color="#10b981"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;font-family:var(--font-head);text-transform:uppercase;letter-spacing:.08em;">Secure</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stats reveal" style="margin-top:32px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;max-width:560px;margin-left:auto;margin-right:auto;">
+    <div class="hero-stat">
+      <div class="num" id="count-dishes" data-value="28">28</div>
+      <div class="lbl">Dishes</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num" id="count-roles" data-value="3">3</div>
+      <div class="lbl">User Roles</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num" id="count-realtime" data-value="100">100%</div>
+      <div class="lbl">Live Updates</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DISH OF THE DAY ════════════════════════════════════════════ -->
+<div class="dotd reveal" id="dotd-landing"></div>
+
+<!-- ══ HOW IT WORKS ══════════════════════════════════════════════ -->
+<h2 class="section-title reveal">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
+    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="url(#howGrad)" stroke="none"/>
+    <defs><linearGradient id="howGrad" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+  </svg>
+  How it works
+</h2>
+<div class="how-grid">
+  <div class="how-step reveal">
+    <div class="step-badge">1</div>
+    <h3>Browse &amp; cart</h3>
+    <p>Pick dishes from the live menu. See prices, ratings &amp; prep time. Add to cart from class.</p>
+  </div>
+  <div class="how-step reveal">
+    <div class="step-badge">2</div>
+    <h3>Get a token</h3>
+    <p>Place the order — you instantly get a unique token number and an estimated wait time.</p>
+  </div>
+  <div class="how-step reveal">
+    <div class="step-badge">3</div>
+    <h3>Track live</h3>
+    <p>Your screen updates automatically: Placed → Preparing → Ready. Zero refreshing needed.</p>
+  </div>
+  <div class="how-step reveal">
+    <div class="step-badge">4</div>
+    <h3>Collect &amp; rate</h3>
+    <p>Walk up, show the token, grab hot food. Rate the dish for the next student.</p>
+  </div>
+</div>
+
+<!-- ══ FEATURED MENU ═════════════════════════════════════════════ -->
+<h2 class="section-title reveal" style="margin-top:48px">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex-shrink:0">
+    <circle cx="11" cy="11" r="10" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.4)"/>
+    <path d="M7 11.5L9.5 14 15 8" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Featured today
+</h2>
+<div class="grid-auto" id="featured"></div>
+
+<!-- ══ ROLE CARDS ════════════════════════════════════════════════ -->
+<h2 class="section-title reveal" style="margin-top:52px">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex-shrink:0">
+    <circle cx="8" cy="8" r="3.5" stroke="#a855f7" stroke-width="1.5"/>
+    <circle cx="15" cy="6" r="2.5" stroke="#06b6d4" stroke-width="1.5"/>
+    <path d="M2 18c0-3 2.7-5 6-5s6 2 6 5" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M14 14c1.5-.7 4 .5 4 3" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  One app, three roles
+</h2>
+<div class="grid-auto">
+  <div class="role-card student reveal">
+    <div class="role-icon">👨‍🎓</div>
+    <h3>Students</h3>
+    <p>Browse the live menu, pre-order from class, get a token, track status in real time, reorder in one tap, and rate dishes.</p>
+  </div>
+  <div class="role-card staff reveal">
+    <div class="role-icon">👨‍🍳</div>
+    <h3>Canteen Staff</h3>
+    <p>A live kitchen board — new orders pop in without refresh. Move orders through preparing → ready, toggle out-of-stock instantly.</p>
+  </div>
+  <div class="role-card admin reveal">
+    <div class="role-icon">📊</div>
+    <h3>Admin</h3>
+    <p>Revenue charts, peak-hour heatmap, top dishes &amp; spenders, waste tracker, CSV export, and full menu management.</p>
+  </div>
+</div>
+
+<div class="text-center mt-lg" style="padding-bottom:40px">
+  <p class="muted" style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:14px;color:var(--purple3)">Ready to skip the queue?</p>
+  <a href="/register" class="btn btn-primary btn-lg">Create an account →</a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script>boot('index', indexInit);</script>
+{% endblock %}

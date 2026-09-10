@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">🍔</div>
+    <h2>Welcome back</h2>
+    <p class="auth-sub">Sign in to pre-order your canteen food</p>
+
+    <form onsubmit="loginSubmit(event)">
+      <div class="field">
+        <label>Email address</label>
+        <div class="input-wrap">
+          <span class="input-icon">📧</span>
+          <input class="input" id="email" type="email" placeholder="you@college.edu" autocomplete="email" required />
+        </div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input class="input" id="password" type="password" placeholder="Your password" autocomplete="current-password" required />
+          <button type="button" class="input-eye" onclick="togglePwd(this)" aria-label="Show/hide password">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="login-btn" style="margin-top:6px">
+        Login →
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:18px;font-size:.88rem;color:var(--muted)">
+      Don't have an account?
+      <a href="/register" class="auth-link">Create one →</a>
+    </p>
+
+    <!-- Demo credentials -->
+    <div class="demo-logins">
+      <strong>🔑 Demo logins (run seed.py first)</strong><br>
+      <code style="font-family:var(--font-mono);font-size:.78rem">
+        student : aarav@college.edu / student123<br>
+        staff&nbsp;&nbsp;&nbsp;: staff@college.edu / staff123<br>
+        admin&nbsp;&nbsp;&nbsp;: admin@college.edu / admin123
+      </code>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<script>boot('login', loginInit);</script>
+{% endblock %}

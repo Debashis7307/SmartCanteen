@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h2>📦 My Orders</h2>
+  <p>Your order history, spending summary &amp; one-tap reorders.</p>
+</div>
+
+<div id="orders-wrap">
+  <!-- Summary stat cards (injected by JS) -->
+  <div class="order-summary-grid" id="orders-summary"></div>
+  <!-- Order cards list (injected by JS) -->
+  <div id="orders-list"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/my_orders.js') }}"></script>
+<script>boot('myorders', myOrdersInit);</script>
+{% endblock %}

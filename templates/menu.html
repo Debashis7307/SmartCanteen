@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+<div class="page-head flex between center wrap">
+  <div>
+    <h2>🍽️ Today's Menu</h2>
+    <p>Live availability, prices &amp; ratings. Add to your cart, then grab a token.</p>
+  </div>
+  <div id="student-only"></div>
+</div>
+
+<!-- Search + filter -->
+<div class="flex gap center wrap" style="margin-bottom:14px">
+  <div class="search-box" style="max-width:420px;flex:1">
+    <span class="ico">🔍</span>
+    <input id="search" type="text" placeholder="Search dosa, chai, burger…" autocomplete="off"/>
+  </div>
+</div>
+<div class="chip-row" id="cat-chips" style="margin-bottom:20px"></div>
+
+<!-- Dish of the Day -->
+<div id="dotd" class="dotd reveal" style="margin-bottom:28px"></div>
+
+<!-- Smart suggestions -->
+<div id="suggestions" class="hide" style="margin-bottom:28px"></div>
+
+<!-- Menu grid -->
+<h3 class="section-title">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0">
+    <circle cx="10" cy="10" r="9" stroke="var(--teal2)" stroke-width="1.5" fill="none"/>
+    <path d="M6 10h8M10 6v8" stroke="var(--teal2)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  All dishes
+</h3>
+<div class="grid-auto" id="menu-grid"></div>
+
+<!-- Cart FAB -->
+<button class="cart-fab" id="cart-fab">
+  🛒 Cart <span class="count" id="fab-count">0</span>
+  <span class="total" id="fab-total">₹0</span>
+</button>
+
+<!-- Cart overlay + drawer -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-head">
+    <h3>🛒 Your Order</h3>
+    <button class="cart-close" id="cart-close" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      <span class="emoji">🛒</span>
+      <p>Your cart is empty.<br>Add some tasty food!</p>
+    </div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total">
+      <span class="label">Total</span>
+      <span class="amt" id="cart-total">₹0</span>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Special instructions</label>
+      <textarea class="textarea" id="notes" placeholder="Less spicy, extra chutney, no onions…" rows="2"></textarea>
+    </div>
+    <button class="btn btn-primary btn-block" id="place-btn" disabled onclick="placeOrder()">
+      Checkout →
+    </button>
+  </div>
+</aside>
+
+<!-- ════ PAYMENT MODAL (QR + "I've Paid" demo flow) ════════════════ -->
+<div class="modal-backdrop" id="pay-modal" role="dialog" aria-modal="true" aria-label="Payment">
+  <div class="modal pay-modal">
+    <div class="modal-head">
+      <h3>💳 Pay at the counter</h3>
+      <button class="modal-close" onclick="closePayModal()" aria-label="Close">✕</button>
+    </div>
+    <p class="muted" style="text-align:center;font-size:.85rem;margin:0 0 14px">
+      Scan the QR to pay the canteen, then tap <b>I've Paid</b> to confirm your order.
+    </p>
+    <div class="pay-qr-box" id="pay-qr"></div>
+    <div class="pay-amount" id="pay-amount">₹0</div>
+    <div class="pay-upi-id">UPI ID · smartcanteen@upi</div>
+    <button class="btn btn-primary btn-block" id="pay-confirm-btn" onclick="confirmPayment()">
+      ✅ I've Paid — Place Order
+    </button>
+    <button class="btn btn-ghost btn-block" style="margin-top:8px" onclick="closePayModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- ════ REVIEW MODAL ════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="review-modal" role="dialog" aria-modal="true" aria-label="Review dish">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>⭐ Rate this dish</h3>
+      <button class="modal-close" onclick="closeReviewModal()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Dish info -->
+    <div class="review-dish-info">
+      <div class="review-dish-emoji" id="rm-emoji">🍽️</div>
+      <div>
+        <div class="review-dish-name" id="rm-name">—</div>
+        <div class="review-dish-cat" id="rm-cat">—</div>
+      </div>
+    </div>
+
+    <!-- Star rating input -->
+    <div class="field">
+      <label>Your rating</label>
+      <div class="star-input" id="star-input">
+        <input type="radio" name="rating" id="s5" value="5"><label for="s5">★</label>
+        <input type="radio" name="rating" id="s4" value="4"><label for="s4">★</label>
+        <input type="radio" name="rating" id="s3" value="3"><label for="s3">★</label>
+        <input type="radio" name="rating" id="s2" value="2"><label for="s2">★</label>
+        <input type="radio" name="rating" id="s1" value="1"><label for="s1">★</label>
+      </div>
+      <div class="star-hint" id="star-hint">Click to rate (1–5 stars)</div>
+    </div>
+
+    <!-- Comment -->
+    <div class="field">
+      <label>Your review <span class="faint" style="font-size:.72rem;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <textarea class="textarea" id="rm-comment" placeholder="Crispy and delicious! Would order again…" rows="3"></textarea>
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="submitReview()" id="rm-submit-btn">
+      Submit Review
+    </button>
+
+    <!-- Existing reviews -->
+    <div class="divider"></div>
+    <div class="section-title" style="font-size:0.9rem;margin:16px 0 12px">
+      💬 What others say
+    </div>
+    <div class="review-list" id="rm-reviews">
+      <div class="center-load"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+<script>boot('menu', menuInit);</script>
+{% endblock %}

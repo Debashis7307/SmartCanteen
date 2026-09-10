@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">🍔</div>
+    <h2>Create account</h2>
+    <p class="auth-sub">Join SmartCanteen — skip the queue from day one</p>
+
+    <form onsubmit="registerSubmit(event)">
+      <div class="field">
+        <label>Full name</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input class="input" id="name" type="text" placeholder="Aarav Sharma" autocomplete="name" required />
+        </div>
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <div class="input-wrap">
+          <span class="input-icon">📧</span>
+          <input class="input" id="email" type="email" placeholder="you@college.edu" autocomplete="email" required />
+        </div>
+      </div>
+      <div class="field">
+        <label>I am a…</label>
+        <div class="role-pick" id="role-pick">
+          <label class="role-card">
+            <input type="radio" name="role" value="student" checked />
+            <span class="rc-emoji">👨‍🎓</span>
+            <span class="rc-name">Student</span>
+            <span class="rc-desc">Order & track food</span>
+          </label>
+          <label class="role-card">
+            <input type="radio" name="role" value="staff" />
+            <span class="rc-emoji">👨‍🍳</span>
+            <span class="rc-name">Staff</span>
+            <span class="rc-desc">Kitchen dashboard</span>
+          </label>
+          <label class="role-card">
+            <input type="radio" name="role" value="admin" />
+            <span class="rc-emoji">📊</span>
+            <span class="rc-name">Admin</span>
+            <span class="rc-desc">Analytics & menu</span>
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Roll number <span class="faint" style="text-transform:none;letter-spacing:0;font-size:.7rem">(optional, students only)</span></label>
+        <div class="input-wrap">
+          <span class="input-icon">🎓</span>
+          <input class="input" id="roll_number" type="text" placeholder="CS21001" autocomplete="off" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input class="input" id="password" type="password" placeholder="At least 6 characters" autocomplete="new-password" required />
+          <button type="button" class="input-eye" onclick="togglePwd(this)" aria-label="Show/hide password">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="register-btn" style="margin-top:6px">
+        Create Account →
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:18px;font-size:.88rem;color:var(--muted)">
+      Already have an account?
+      <a href="/login" class="auth-link">Sign in →</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<script>boot('register', registerInit);</script>
+{% endblock %}

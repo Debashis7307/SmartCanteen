@@ -1,0 +1,45 @@
+# ════════════════════════════════════════════════════════════════════
+#  SmartCanteen — .dockerignore  (Day 9: keep the image lean & secret-free)
+# ════════════════════════════════════════════════════════════════════
+#  Anything listed here is NOT copied into the Docker image. This
+#  matters for two reasons:
+#    1. Size — venv/ and __pycache__/ are huge and useless inside the
+#       container (we pip install fresh anyway).
+#    2. Security — .env contains the real SECRET_KEY & MONGO_URI. If it
+#       gets baked into an image layer it can be extracted later.
+# ════════════════════════════════════════════════════════════════════
+
+# ---- Secrets & local config (NEVER bake into an image) ----
+.env
+.env.local
+.env.*.local
+
+# ---- Python caches & virtualenvs (recreated inside the image) ----
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+
+# ---- Version control & editor junk ----
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Logs & temp ----
+*.log
+*.pid
+
+# ---- Tests don't belong in the runtime image ----
+test_socket.py

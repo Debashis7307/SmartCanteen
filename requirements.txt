@@ -1,0 +1,20 @@
+# ════════════════════════════════════════════════════════════════════
+#  SmartCanteen — Python Dependencies
+# ════════════════════════════════════════════════════════════════════
+#  Render / Railway read this file to install everything the app needs.
+#  (Day 9: Deployment — the hosting platform runs `pip install -r ...`)
+#
+#  WHY pin exact versions?
+#     A future "breaking change" in a library could silently break our
+#     app months from now. Pinning = reproducible builds everywhere.
+# ════════════════════════════════════════════════════════════════════
+
+Flask==3.0.0              # The web framework (Day 23-24 course)
+pymongo==4.6.1            # MongoDB driver for Python (Day 4 course)
+python-dotenv==1.0.0      # Loads secrets from .env into os.environ (Day 27 course)
+bcrypt==4.0.1             # Password hashing — slow by design (Day 5 theory)
+PyJWT==2.8.0              # JSON Web Token creation & verification (Day 5 theory)
+Flask-SocketIO==5.3.6     # WebSocket layer for real-time updates (Day 4 & 7 theory)
+flask-cors==4.0.0         # CORS headers — lets other origins call our API (Day 4)
+gunicorn==21.2.0          # Production WSGI server — spawns OS worker procs (Day 3 & 9)
+eventlet==0.41.2          # Async backend for SocketIO on Render (Day 7: async I/O)

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SmartCanteen — pre-order college canteen food, skip the queue, track your order live." />
+  <title>{% block title %}SmartCanteen{% endblock %} · Skip the Queue</title>
+
+  <!-- ── Google Fonts: Multi-font system ─────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Bonheur+Royale&family=Felipa&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ── Styles ───────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}" />
+
+  <!-- ── Socket.IO client ─────────────────────────────────────────── -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+  <!-- ── Chart.js for analytics ───────────────────────────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- ── QRCode.js for the payment screen ──────────────────────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ══ NAVBAR ════════════════════════════════════════════════════ -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <div class="brand-icon">🍔</div>
+        <div class="brand-text">
+          <span class="brand-name">SmartCanteen</span>
+          <span class="brand-sub">Skip the Queue</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="nav-links"></nav>
+      <div class="flex center gap-sm" id="nav-user"></div>
+    </div>
+  </header>
+
+  <!-- ══ PAGE CONTENT ══════════════════════════════════════════════ -->
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        🍔 <span>SmartCanteen</span> — MongoDB + Python Course Capstone
+      </div>
+      <div class="footer-stack">
+        <span class="tech-pill">Flask</span>
+        <span class="tech-pill">MongoDB</span>
+        <span class="tech-pill">Socket.IO</span>
+        <span class="tech-pill">Chart.js</span>
+        <span class="tech-pill">GridFS</span>
+      </div>
+      <div class="footer-links">
+        <a href="/api-info">API</a>
+        <a href="https://github.com" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Shared JS (load order matters) ───────────────────────────── -->
+  <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

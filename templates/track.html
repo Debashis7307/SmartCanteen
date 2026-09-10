@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Track Order{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h2>🎯 Track Your Order</h2>
+  <p>Enter your token number — the status updates live, no refresh needed.</p>
+</div>
+
+<div class="track-input-row">
+  <div class="search-box">
+    <span class="ico" style="font-family:var(--font-mono);font-weight:700;font-size:1.1rem">#</span>
+    <input id="token-input" type="number" min="1" placeholder="e.g. 47"
+           onkeydown="if(event.key==='Enter') lookupToken(this.value)" />
+  </div>
+  <button class="btn btn-primary" onclick="lookupToken(document.getElementById('token-input').value)">
+    Track →
+  </button>
+</div>
+
+<div id="track-stage">
+  <!-- Placeholder: shows when no token entered -->
+  <div style="text-align:center;padding:60px 20px;color:var(--muted)">
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 20px;display:block;filter:drop-shadow(0 0 16px rgba(124,58,237,0.3))">
+      <circle cx="40" cy="40" r="38" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.25)" stroke-width="1.5"/>
+      <!-- Target rings -->
+      <circle cx="40" cy="40" r="26" fill="none" stroke="rgba(124,58,237,0.2)" stroke-width="1.5"/>
+      <circle cx="40" cy="40" r="14" fill="none" stroke="rgba(6,182,212,0.3)" stroke-width="1.5"/>
+      <circle cx="40" cy="40" r="5" fill="rgba(168,85,247,0.6)"/>
+      <!-- Arrow -->
+      <path d="M56 24L46 34" stroke="var(--teal2)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M50 24H56V30" stroke="var(--teal2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p style="font-family:var(--font-head);font-size:1.05rem">Enter a token number to see live status.</p>
+    <p style="font-size:.88rem;margin-top:6px">Your token is shown after placing an order on the menu page.</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/track.js') }}"></script>
+<script>boot('track', trackInit);</script>
+{% endblock %}

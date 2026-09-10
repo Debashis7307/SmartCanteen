@@ -1,0 +1,26 @@
+services:
+  # ── Web service (Flask + Socket.IO) ────────────────────────────
+  - type: web
+    name: smartcanteen
+    runtime: python
+    region: singapore          # closest to India; change to oregon / frankfurt if needed
+    plan: free                 # Render free tier
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -k eventlet -w 1 --bind 0.0.0.0:$PORT --timeout 120 app:app
+    envVars:
+      # ── Required: set these in the Render dashboard ──────────────
+      - key: MONGO_URI
+        sync: false            # you paste the Atlas URI in the dashboard
+      - key: SECRET_KEY
+        generateValue: true    # Render generates a secure random string for you
+      # ── Reasonable defaults ──────────────────────────────────────
+      - key: MONGO_DB_NAME
+        value: smart_canteen
+      - key: JWT_EXPIRY_HOURS
+        value: "12"
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: "10000"
+      - key: CORS_ORIGINS
+        value: https://smartcanteen.onrender.com
