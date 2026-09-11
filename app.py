@@ -126,8 +126,11 @@ def create_app():
 
     @app.errorhandler(500)
     def server_error(err):
+        import traceback
         return jsonify({"success": False,
-                        "error": "Something broke in the kitchen. We're on it."}), 500
+                        "error": "Something broke in the kitchen. We're on it.",
+                        "debug": str(err),
+                        "trace": traceback.format_exc().splitlines()[-3:]}), 500
 
     return app
 
