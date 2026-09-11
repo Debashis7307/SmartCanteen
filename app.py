@@ -21,6 +21,16 @@
 ╚══════════════════════════════════════════════════════════════╝
 """
 
+# CRITICAL: eventlet.monkey_patch() MUST be called before any other
+# import that touches sockets (pymongo, Flask, etc.). Without this,
+# pymongo's SSL connection to MongoDB Atlas breaks because eventlet's
+# green sockets don't match the regular SSL sockets pymongo cached.
+try:
+    import eventlet
+    eventlet.monkey_patch()
+except ImportError:
+    pass
+
 from flask import Flask, render_template, jsonify, send_from_directory, request
 
 from config import Config
