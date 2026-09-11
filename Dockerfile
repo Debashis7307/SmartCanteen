@@ -33,8 +33,7 @@ ENV PYTHONUNBUFFERED=1
 # Expose the port to the host
 EXPOSE 5000
 
-# Day 9: Gunicorn is the production WSGI server. It spawns multiple
-# OS worker processes (Day 3 theory) to handle concurrent students.
-# eventlet provides the async backend SocketIO needs.
-# Shell form so ${PORT} expands — Koyeb/Render inject their own PORT.
-CMD gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 1 --worker-class eventlet --timeout 120 app:app
+# Day 9: Gunicorn is the production WSGI server. The config file calls
+# eventlet.monkey_patch() before the app is imported (silences the
+# "RLock not greened" warning and prevents SSL deadlocks with Atlas).
+CMD gunicorn -c gunicorn_config.py --workers 1 --timeout 120 app:app

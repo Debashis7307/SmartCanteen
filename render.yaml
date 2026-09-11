@@ -6,7 +6,7 @@ services:
     region: singapore          # closest to India; change to oregon / frankfurt if needed
     plan: free                 # Render free tier
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn -k eventlet -w 1 --bind 0.0.0.0:$PORT --timeout 120 app:app
+    startCommand: gunicorn -c gunicorn_config.py --workers 1 --timeout 120 app:app
     envVars:
       # ── Required: set these in the Render dashboard ──────────────
       - key: MONGO_URI
